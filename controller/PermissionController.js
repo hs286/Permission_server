@@ -2,7 +2,6 @@ import permission from "../model/PermissionModel.js";
 import seedData from "../model/SeedModel.js";
 import mongoose from "mongoose";
 
-
 export const createPermission = async (request, response) => {
   const { _id, role } = request.body;
   try {
@@ -45,23 +44,28 @@ export const deletePermission = async (request, response) => {
 
 export const CheckPermission = async (request, response, next) => {
   const method = request.method;
-  console.log(method,"to be done")
-  var id = mongoose.Types.ObjectId(request.body.userId);
-  const allPermissions = await permission.find({userId:id}).populate('permissionId')
-  allPermissions.forEach(element => {
-    console.log(element.permissionId.type)
+  const id = request.header("authorization");
+  // console.log(method,"to be done")
+  // var id = mongoose.Types.ObjectId(request.body.userId);
+  console.log(id);
+  const allPermissions = await permission
+    .find({ userId: id })
+    .populate("permissionId");
+  console.log(allPermissions);
+  allPermissions.forEach((element) => {
+    console.log(element.permissionId.type);
   });
   const element = allPermissions.find(
     (element) => element.permissionId.type == method
   );
-    console.log(element)
-  if (element.permissionId.type == method) {
-    next();
-  } else {
+  console.log(element);
+  if (element == undefined) {
     const object = {
       error: true,
       message: "Current method is not allowed against this users",
     };
     return response.status(500).json(object);
+  } else if (element.permissionId.type == method) {
+    next();
   }
 };

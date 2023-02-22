@@ -14,9 +14,9 @@ const upload=multer({dest:'upload/'})
 const route = express.Router();
 
 route.post("/",upload.single('file'),CheckPermission, addNewBloginDB);
-route.get("/", getAllBlogs);
-route.get("/:id", getBlogById);
-route.put("/:id", updateBlog);
-route.delete("/:id", deleteBlog);
+route.get("/",CheckPermission, getAllBlogs);
+route.get("/:id",CheckPermission, getBlogById);
+route.put("/:id",CheckPermission, updateBlog);
+route.delete("/:id",CheckPermission, deleteBlog);
 
 export default route;
