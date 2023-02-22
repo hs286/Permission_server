@@ -23,24 +23,24 @@ export const addNewBloginDB = async (request, response) => {
 
 export const getAllBlogs = async (request, response) => {
   const id = request.header("authorization");
-  console.log(request.query);
+  console.log(id,"in getall");
   try {
     var { page = 1, limit = 10, title = "" } = request.query;
     var newBlog = "",
       query = "";
     if (title == "undefined") {
       
-      query = { userId: id };
+      query = {};
       console.log(id)
     } else {
-      query = { title: { $regex: title }, userId: id };
+      query = { title: { $regex: title } };
       console.log(id,"in long")
     }
     newBlog = await Blogs.find(query)
       .sort({ createdAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit);
-    const total = await Blogs.count({ userId: id });
+    const total = await Blogs.count();
     return response
       .status(200)
       .json({ total: total, newBlog });
@@ -81,6 +81,7 @@ export const updateBlog = async (request, response) => {
 
 export const deleteBlog = async (request, response) => {
   const { id } = request.params;
+  console.log("In delete")
   try {
     const newBlog = await Blogs.findByIdAndDelete(id);
     return response.status(200).json(newBlog);
