@@ -60,7 +60,7 @@ export const CheckPermission = async (request, response, next) => {
   } else {
     const object = {
       error: true,
-      message: "Current method is not allowed against this user",
+      message: "Current method is not allowed against this users",
     };
     return response.status(500).json(object);
   }
