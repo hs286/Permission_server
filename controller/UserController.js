@@ -1,7 +1,7 @@
 import Users from "../model/UserModel.js";
 import jwt from "jsonwebtoken";
 
-export const addNewUserinDB = async (request, response) => {
+export const addNewUserInDb = async (request, response) => {
   const { email, name, age, password, id,role } = request.body;
 console.log(email,name,age,password,role)
   try {
@@ -32,10 +32,11 @@ console.log(email,name,age,password,role)
 };
 
 export const checkLogin = async (request, response) => {
+  var { email='', password='' } = request.query;
   try {
     const newUser = await Users.find({
-      email: request.body.email,
-      password: request.body.password,
+      email: email,
+      password: password,
     });
     if (newUser != "") {
       const accessToken = jwt.sign(

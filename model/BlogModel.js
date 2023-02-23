@@ -26,6 +26,6 @@ const bioSchema = new mongoose.Schema({
 },{versionKey:false});
 
 // Export Bio Model
-var Blogs = mongoose.model('registerBlogs', bioSchema);
+var Assignments = mongoose.model('registerAssignments', bioSchema);
 
-export default Blogs;
+export default Assignments;
