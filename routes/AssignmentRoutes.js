@@ -1,11 +1,11 @@
 import express from "express";
 import {
-  addNewBloginDB,
-  getAllBlogs,
+  addnewAssignmentsinDB,
+  getAllAssignments,
   updateBlog,
   deleteBlog,
   getBlogById,
-} from "../controller/BlogController.js";
+} from "../controller/AssignmentController.js";
 import multer from "multer";
 import { CheckPermission } from "../controller/PermissionController.js";
 
@@ -13,8 +13,8 @@ import { CheckPermission } from "../controller/PermissionController.js";
 const upload=multer({dest:'upload/'})
 const route = express.Router();
 
-route.post("/",upload.single('file'),CheckPermission, addNewBloginDB);
-route.get("/",CheckPermission, getAllBlogs);
+route.post("/",upload.single('file'),CheckPermission, addnewAssignmentsinDB);
+route.get("/",CheckPermission, getAllAssignments);
 route.get("/:id",CheckPermission, getBlogById);
 route.put("/:id",CheckPermission, updateBlog);
 route.delete("/:id",CheckPermission, deleteBlog);
